@@ -73,7 +73,7 @@ function get_child_objects(o :: ModelObject)
     for pn in propertynames(o)
         @assert isdefined(o, pn)  "$pn undefined in $o"
         obj = getproperty(o, pn);
-        if isa(obj, Vector)
+        if isa(obj, Vector)  &&  !isempty(obj)
             # This check is not quite right. But objects should all be the same type.
             if is_model_object(obj[1])
                 append!(childV, obj);
@@ -94,7 +94,7 @@ get_child_objects(o) = Vector{Any}();
 """
 	$(SIGNATURES)
 
-Find child object with a given `ObjectId`.
+Find child object with a given `ObjectId`. Expects that all ModelObjects have ObjectIds.
 Returns `nothing` if not found.
 """
 function find_object(o :: ModelObject, id :: ObjectId)
