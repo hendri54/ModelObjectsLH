@@ -1,0 +1,7 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+FilesLH = "69233b93-b644-4f5d-9b2e-8880c8b19068"
+ModelObjectsLH = "41cbb5d9-4a7a-4d38-8546-f9486737fd3b"
+
+[compat]
+Documenter = "~0.24"

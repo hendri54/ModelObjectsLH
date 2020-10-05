@@ -1,2 +1,5 @@
-# ModelObjectsLH
-Handing of model objects (nested) with calibrated parameters.
+# ModelObjectsLH.jl
+
+Defines unique `ObjectId`s for ModelObjects.
+
+-----------
