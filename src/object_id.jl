@@ -100,10 +100,16 @@ make_child_id(parentId :: ObjectId, name :: Symbol, descr :: String) =
 
 Checks whether two `ObjectId`s are the same. Does not consider descriptions.
 """
-function Base.isequal(id1 :: ObjectId,  id2 :: ObjectId)
+function Base.:(==)(id1 :: ObjectId,  id2 :: ObjectId)
     outVal = (length(id1.ids) == length(id2.ids))  &&  all(isequal.(id1.ids, id2.ids))
     return outVal
 end
+
+Base.isequal(id1 :: ObjectId,  id2 :: ObjectId) = id1 == id2;
+
+# Must be implmented for storage in `Dict`.
+Base.hash(id1 :: ObjectId, h :: UInt) = 
+    hash(id1.ids, hash(:ObjectId, h));
 
 """
 	$(SIGNATURES)

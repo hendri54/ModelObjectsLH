@@ -21,15 +21,17 @@ function find_test()
 
         # Find objects by name
         @test isnothing(find_object(m, childId1))
-        @test isempty(find_object(m, :child))
+        @test isempty(find_object(m, :child));
 
         childId2 = make_child_id(m, :o1);
         child2 = find_object(m, childId2);
-        @test isa(child2, ModelObject)
+        @test isa(child2, ModelObject);
 
         child2 = find_object(m, :o1);
         @test length(child2) == 1
         @test isequal(child2[1].objId, childId2)
+        child3 = find_only_object(m, :o1);
+        @test isequal(get_object_id(child3), childId2);
 
         # Find the object itself. 
         m2 = find_object(m, m.objId);

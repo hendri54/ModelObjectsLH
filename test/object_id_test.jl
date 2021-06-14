@@ -18,7 +18,8 @@ function object_id_test()
         s1 = make_string(id1);
         @test isequal(s1, "id1")
         o1a = make_object_id(s1)
-        @test isequal(o1, o1a)
+        @test isequal(o1, o1a);
+        @test o1 == o1a;
 
         # Index, no parents
         o2 = ObjectId(:id2, 2)
@@ -34,7 +35,8 @@ function object_id_test()
         s3 = mo.make_string(o3);
         @test isequal(s3, "id1 > id3[2]")
         o3a = make_object_id(s3)
-        @test isequal(o3, o3a)
+        @test isequal(o3, o3a);
+        @test o3 == o3a;
 
         # Make child id
         o4 = ObjectId(:id4, p3);
@@ -49,8 +51,27 @@ function object_id_test()
     end
 end
 
+function dict_object_id_test()
+    @testset "Dict ObjectId" begin
+        objIdV = [
+            ObjectId(:id1), 
+            ObjectId(:id2, 1), 
+            make_child_id(ObjectId(:id1), :id3)];
+        d = Dict{ObjectId, Int}([oId => j  for (j, oId) in enumerate(objIdV)]);
+        for (id1, val) in d
+            @test id1 isa ObjectId;
+            @test val isa Integer;
+        end
+        for objId in objIdV
+            @test haskey(d, objId);
+        end
+    end
+end
+
+
 @testset "ObjectId" begin
     object_id_test();
+    dict_object_id_test();
 end
 
 # --------------

@@ -42,8 +42,19 @@ function single_id_test()
     end
 end
 
+function dict_single_id_test()
+    @testset "Dict Single Id" begin
+        d = Dict{SingleId, Any}([SingleId(:id1) => 1, SingleId(:id2, 1) => 2]);
+        for (id1, val) in d
+            @test id1 isa SingleId;
+            @test val isa Integer;
+        end
+    end
+end
+
 @testset "SingleId" begin
     single_id_test();
+    dict_single_id_test();
 end
 
 # -------------

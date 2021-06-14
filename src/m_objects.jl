@@ -1,6 +1,6 @@
 ## -----------  Access
 
-own_name(o :: ModelObject) = own_name(o.objId);
+own_name(o :: ModelObject) = own_name(get_object_id(o));
 
 
 """
@@ -136,6 +136,16 @@ end
 
 find_object(o, oName :: Symbol) = Vector{Any}();
 
+"""
+	$(SIGNATURES)
+
+Find the only object that matches the name `oName`.
+"""
+function find_only_object(o :: ModelObject, oName :: Symbol)
+    return only(find_object(o, oName));
+end
+
+find_only_object(o, oName :: Symbol) = nothing;
 
 
 """

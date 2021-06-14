@@ -61,22 +61,22 @@ Does `SingleId` have an index, indicating that it is part of a `Vector` of objec
 """
 has_index(this :: SingleId) = !Base.isempty(this.index)
 
-function Base.isequal(id1 :: SingleId, id2 :: SingleId)
+function Base.:(==)(id1 :: SingleId, id2 :: SingleId)
     return (id1.name == id2.name)  &&  (id1.index == id2.index)
 end
 
-Base.isequal(id1V :: Vector{SingleId},  id2V :: Vector{SingleId}) = 
+Base.isequal(id1 :: SingleId, id2 :: SingleId) = 
+    id1 == id2;
+
+Base.:(==)(id1V :: Vector{SingleId},  id2V :: Vector{SingleId}) = 
     all(isequal.(id1V, id2V));
 
-#     outVal = length(id1V) == length(id2V);
-#     if outVal
-#         for i1 = 1 : length(id1V)
-#             outVal = outVal && isequal(id1V[i1], id2V[i1]);
-#         end
-#     end
-#     return outVal
-# end
+Base.isequal(id1V :: Vector{SingleId}, id2V :: Vector{SingleId}) = 
+    all(isequal.(id1V, id2V));
 
+# Must be implmented for storage in `Dict`.
+Base.hash(id1 :: SingleId, h :: UInt) = 
+    hash(id1.name, hash(id1.index, hash(:SingleId, h)));
 
 
 ## ----------------  Show
