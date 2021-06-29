@@ -21,6 +21,10 @@ Retrieve an objects ObjectId. Return `nothing` if not found.
 get_object_id(o :: ModelObject) = o.objId :: ObjectId
 get_object_id(o) = nothing;
 
+# function get_object_id(switches :: ModelSwitches)
+#     if has_pvector(switches)
+#         return get_object_id(get_pve)
+
 
 ## ------------  Collect objects inside a ModelObject
 
@@ -41,8 +45,26 @@ Collect all model objects inside an object, including the object itself.
 Only those that satisfy `is_model_object`.
 Recursive. Also collects objects inside child objects and so on.
 Returns empty `Vector` if no objects found.
+
+# Arguments
+- flatten: If `true`, return a single `Vector` with all objects. If `false`, return a nested `Vector`.
+
+# Example
+```julia
+struct O1
+    c1
+    c2
+end
+v = collect_model_objects(o; flatten = true);
+v == [o, o.c1, o.c1.c1, o.c2, o.c2.c1, o.c2.c2];
+# Each element contains an objects and all its children (and their children).
+v = collect_model_objects(o; flatten = false);
+v[1] == o;
+v[2] == [o.c1, o.c1.c1]
+v[3] == [o.c2, o.c2.c1, o.c2.c2]
+```
 """
-function collect_model_objects(o :: ModelObject)
+function collect_model_objects(o :: ModelObject; flatten :: Bool = true)
     outV = Vector{Any}();
     if is_model_object(o)
         push!(outV, o);
@@ -53,13 +75,17 @@ function collect_model_objects(o :: ModelObject)
     if !Base.isempty(childObjV)
         for i1 = 1 : length(childObjV)
             nestedObjV = collect_model_objects(childObjV[i1]);
-            append!(outV, nestedObjV);
+            if flatten
+                append!(outV, nestedObjV);
+            else
+                push!(outV, nestedObjV);
+            end
         end
     end
     return outV :: Vector
 end
 
-collect_model_objects(o) = Vector{Any}();
+collect_model_objects(o; flatten :: Bool = true) = Vector{Any}();
 
 
 """
@@ -88,6 +114,27 @@ function get_child_objects(o :: ModelObject)
 end
 
 get_child_objects(o) = Vector{Any}();
+
+
+# """
+# 	$(SIGNATURES)
+
+# Model objects as nested Vector.
+# """
+# function model_object_dict(o :: ModelObject)
+#     # Objects directly contained in `o`
+#     childObjV = get_child_objects(o);
+#     if !Base.isempty(childObjV)
+#         for i1 = 1 : length(childObjV)
+#             nestedObjV = model_object_dict(childObjV[i1]);
+#             push! = nestedObjV;
+#         end
+#     end
+#     return d
+# end
+
+# model_object_dict(o) = Dict{Any, Any}
+
 
 
 

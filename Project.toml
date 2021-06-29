@@ -1,7 +1,7 @@
 name = "ModelObjectsLH"
 uuid = "41cbb5d9-4a7a-4d38-8546-f9486737fd3b"
 authors = ["hendri54 <hendricksl@protonmail.com>"]
-version = "0.1.4"
+version = "0.1.5"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"

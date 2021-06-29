@@ -11,6 +11,6 @@
 
 get_object_id(s :: ModelSwitches) = s.objId :: ObjectId;
 
-set_object_id!(s :: ModelSwitches)
+# set_object_id!(s :: ModelSwitches)
 
 # -----------

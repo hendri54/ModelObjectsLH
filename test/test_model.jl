@@ -18,11 +18,24 @@ function init_obj1(objId)
     return o1
 end
 
+
+mutable struct Obj3 <: ModelObject
+    objId :: ObjectId
+    x :: Float64
+    y :: Vector{Int}
+end
+
+function init_obj3(objId :: ObjectId)
+    return Obj3(make_child_id(objId, :obj3), 0.5, [1,2]);
+end
+
+
 mutable struct Obj2 <: ModelObject
     objId :: ObjectId
     a :: Float64
     y :: Float64
     b :: Array{Float64,2}
+    obj3 :: Obj3
 end
 
 # function Obj2(a, y, b)
@@ -34,7 +47,7 @@ function init_obj2(objId)
     valueX = 17.3;
     valueY = 9.4;
     valueB = 2.0 .+ [3.3 4.4; 5.5 7.6];
-    o2 = Obj2(objId, valueX, valueY, valueB);
+    o2 = Obj2(objId, valueX, valueY, valueB, init_obj3(objId));
     return o2
 end
 

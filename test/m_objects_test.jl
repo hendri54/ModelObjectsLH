@@ -5,7 +5,7 @@ function collect_test()
         m = init_test_model();
         v = collect_model_objects(m);
         idV = collect_object_ids(m);
-        @test length(v) == 3
+        @test length(v) == 4
         @test length(idV) == length(v)
         for o in v
             @test is_model_object(o)
