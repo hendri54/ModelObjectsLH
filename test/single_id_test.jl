@@ -52,9 +52,19 @@ function dict_single_id_test()
     end
 end
 
+function broadcast_test()
+    @testset "Broadcasting" begin
+        sV = [SingleId(:x), SingleId(:y)];
+        eqV = SingleId(:x) .== sV;
+        @test eqV[1]
+        @test !eqV[2]
+    end
+end
+
 @testset "SingleId" begin
     single_id_test();
     dict_single_id_test();
+    broadcast_test();
 end
 
 # -------------

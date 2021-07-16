@@ -44,6 +44,8 @@ SingleId(name :: Symbol, descr :: String) = SingleId(name, Vector{Int}(), descr)
 
 ## ----------  Access
 
+Base.broadcastable(s :: SingleId) = Ref(s);
+
 """
 	$(SIGNATURES)
 

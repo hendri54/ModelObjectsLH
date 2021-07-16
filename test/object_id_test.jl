@@ -69,9 +69,21 @@ function dict_object_id_test()
 end
 
 
+function oid_broadcast_test()
+    @testset "Broadcasting" begin
+        sV = [ObjectId(:x), ObjectId(:y)];
+        eqV = ObjectId(:x) .== sV;
+        @test eqV[1]
+        @test !eqV[2]
+    end
+end
+
+
+
 @testset "ObjectId" begin
     object_id_test();
     dict_object_id_test();
+    oid_broadcast_test();
 end
 
 # --------------

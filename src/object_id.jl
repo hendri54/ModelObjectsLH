@@ -95,6 +95,11 @@ end
 make_child_id(parentId :: ObjectId, name :: Symbol, descr :: String) = 
     ObjectId(name, descr, parentId);
 
+
+## -----------  Basic properties
+
+Base.broadcastable(oId :: ObjectId) = Ref(oId);
+
 """
 	$(SIGNATURES)
 

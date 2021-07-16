@@ -21,9 +21,6 @@ Retrieve an objects ObjectId. Return `nothing` if not found.
 get_object_id(o :: ModelObject) = o.objId :: ObjectId
 get_object_id(o) = nothing;
 
-# function get_object_id(switches :: ModelSwitches)
-#     if has_pvector(switches)
-#         return get_object_id(get_pve)
 
 
 ## ------------  Collect objects inside a ModelObject
@@ -186,7 +183,7 @@ find_object(o, oName :: Symbol) = Vector{Any}();
 """
 	$(SIGNATURES)
 
-Find the only object that matches the name `oName`.
+Find the only object that matches the name `oName`. Errors if not found.
 """
 function find_only_object(o :: ModelObject, oName :: Symbol)
     return only(find_object(o, oName));
