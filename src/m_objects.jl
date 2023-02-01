@@ -186,7 +186,9 @@ find_object(o, oName :: Symbol) = Vector{Any}();
 Find the only object that matches the name `oName`. Errors if not found.
 """
 function find_only_object(o :: ModelObject, oName :: Symbol)
-    return only(find_object(o, oName));
+    obj = find_object(o, oName);
+    @assert !isnothing(obj)  "Failed to find $oName in $o -> $obj";
+    return only(obj);
 end
 
 find_only_object(o, oName :: Symbol) = nothing;
