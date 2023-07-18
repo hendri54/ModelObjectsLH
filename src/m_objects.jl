@@ -62,16 +62,48 @@ v[3] == [o.c2, o.c2.c1, o.c2.c2]
 ```
 """
 function collect_model_objects(o :: ModelObject; flatten :: Bool = true)
-    outV = Vector{Any}();
+    outV = collect_child_objects(o);
+
+    # outV = Vector{Any}();
     if is_model_object(o)
-        push!(outV, o);
+        pushfirst!(outV, o);
     end
+    return outV
+
+    # # Objects directly contained in `o`
+    # childObjV = get_child_objects(o);
+    # if !Base.isempty(childObjV)
+    #     for child in childObjV
+    #         nestedObjV = collect_model_objects(child);
+    #         if flatten
+    #             append!(outV, nestedObjV);
+    #         else
+    #             push!(outV, nestedObjV);
+    #         end
+    #     end
+    # end
+    # return outV :: Vector
+end
+
+collect_model_objects(o; flatten :: Bool = true) = Vector{Any}();
+
+
+"""
+	$(SIGNATURES)
+
+The same as `collect_model_objects`, but also works for non-ModelObjects.
+"""
+function collect_child_objects(o; flatten :: Bool = true)
+    outV = Vector{Any}();
+    # if is_model_object(o)
+    #     push!(outV, o);
+    # end
 
     # Objects directly contained in `o`
     childObjV = get_child_objects(o);
     if !Base.isempty(childObjV)
-        for i1 = 1 : length(childObjV)
-            nestedObjV = collect_model_objects(childObjV[i1]);
+        for child in childObjV
+            nestedObjV = collect_model_objects(child);
             if flatten
                 append!(outV, nestedObjV);
             else
@@ -82,7 +114,6 @@ function collect_model_objects(o :: ModelObject; flatten :: Bool = true)
     return outV :: Vector
 end
 
-collect_model_objects(o; flatten :: Bool = true) = Vector{Any}();
 
 
 """
