@@ -6,7 +6,7 @@ export SingleId, has_index, make_string, make_single_id
 export ObjectId, make_object_id, make_child_id, own_name, n_parents, description
 export ModelSwitches
 export ModelObject, is_model_object, get_object_id, 
-    collect_model_objects, collect_child_objects, collect_object_ids, get_child_objects, find_object, find_only_object, get_value
+    collect_model_objects, collect_model_objects_for_any, collect_object_ids, get_child_objects, find_object, find_only_object, get_value
 export object_structure, show_object_structure
 
 const ObjIdSeparator = " > ";

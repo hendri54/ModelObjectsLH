@@ -62,12 +62,12 @@ v[3] == [o.c2, o.c2.c1, o.c2.c2]
 ```
 """
 function collect_model_objects(o :: ModelObject; flatten :: Bool = true)
-    outV = collect_child_objects(o);
+    outV = collect_model_objects_for_any(o; flatten);
 
     # outV = Vector{Any}();
-    if is_model_object(o)
-        pushfirst!(outV, o);
-    end
+    # if is_model_object(o)
+    #     pushfirst!(outV, o);
+    # end
     return outV
 
     # # Objects directly contained in `o`
@@ -92,15 +92,16 @@ collect_model_objects(o; flatten :: Bool = true) = Vector{Any}();
 	$(SIGNATURES)
 
 The same as `collect_model_objects`, but also works for non-ModelObjects.
+Recursive.
 """
-function collect_child_objects(o; flatten :: Bool = true)
+function collect_model_objects_for_any(o; flatten :: Bool = true)
     outV = Vector{Any}();
-    # if is_model_object(o)
-    #     push!(outV, o);
-    # end
+    if is_model_object(o)
+        push!(outV, o);
+    end
 
     # Objects directly contained in `o`
-    childObjV = get_child_objects(o);
+    childObjV = get_child_objects_for_any(o);
     if !Base.isempty(childObjV)
         for child in childObjV
             nestedObjV = collect_model_objects(child);
@@ -122,7 +123,29 @@ end
 Find the child objects inside a model object.
 Returns empty Vector if no objects found.
 """
-function get_child_objects(o :: ModelObject)
+get_child_objects(o :: ModelObject) = get_child_objects_for_any(o);
+#     childV = Vector{Any}();
+#     for pn in propertynames(o)
+#         @assert isdefined(o, pn)  "$pn undefined in $o"
+#         obj = getproperty(o, pn);
+#         if isa(obj, Vector)  &&  !isempty(obj)
+#             # This check is not quite right. But objects should all be the same type.
+#             if is_model_object(obj[1])
+#                 append!(childV, obj);
+#             end
+#         else
+#             if is_model_object(obj)
+#                 push!(childV, obj);
+#             end
+#         end
+#     end
+#     return childV :: Vector
+# end
+
+get_child_objects(o) = Vector{Any}();
+
+
+function get_child_objects_for_any(o)
     childV = Vector{Any}();
     for pn in propertynames(o)
         @assert isdefined(o, pn)  "$pn undefined in $o"
@@ -141,7 +164,6 @@ function get_child_objects(o :: ModelObject)
     return childV :: Vector
 end
 
-get_child_objects(o) = Vector{Any}();
 
 
 # """
